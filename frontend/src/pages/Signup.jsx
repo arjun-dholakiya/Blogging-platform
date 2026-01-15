@@ -1,18 +1,18 @@
-import React, { useState } from "react";
-import { Card, Form, Button } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom"; // 1. Import useNavigate
-import axios from "axios";
+import React, { useState } from 'react';
+import { Card, Form, Button } from 'react-bootstrap';
+import { Link, useNavigate } from 'react-router-dom'; // 1. Import useNavigate
+import axios from 'axios';
 
 const Signup = () => {
   const navigate = useNavigate(); // 2. Initialize Hook
-  const [type, setType] = useState("normal"); // normal | social
+  const [type, setType] = useState('normal'); // normal | social
 
   const [data, setData] = useState({
-    name: "",
-    email: "",
-    password: "",
-    social_provider: "",
-    social_id: "",
+    name: '',
+    email: '',
+    password: '',
+    social_provider: '',
+    social_id: ''
   });
 
   // Handle input change
@@ -25,11 +25,11 @@ const Signup = () => {
     setType(newType);
     setData((prev) => ({
       ...prev,
-      password: newType === "normal" ? prev.password : "",
-      email: newType === "normal" ? prev.email : "",
-      social_provider: newType === "social" ? prev.social_provider : "",
-      social_id: newType === "social" ? prev.social_id : "",
-      name: prev.name, // keep name for both types
+      password: newType === 'normal' ? prev.password : '',
+      email: newType === 'normal' ? prev.email : '',
+      social_provider: newType === 'social' ? prev.social_provider : '',
+      social_id: newType === 'social' ? prev.social_id : '',
+      name: prev.name // keep name for both types
     }));
   };
 
@@ -38,47 +38,49 @@ const Signup = () => {
     e.preventDefault();
 
     // Frontend validation
-    if (type === "normal" && (!data.name || !data.email || !data.password)) {
-      alert("Please fill all fields for normal signup");
+    if (type === 'normal' && (!data.name || !data.email || !data.password)) {
+      alert('Please fill all fields for normal signup');
       return;
     }
 
-    if (type === "social" && (!data.name || !data.social_provider || !data.social_id)) {
-      alert("Please fill all fields for social signup");
+    if (
+      type === 'social' &&
+      (!data.name || !data.social_provider || !data.social_id)
+    ) {
+      alert('Please fill all fields for social signup');
       return;
     }
 
     try {
       const payload = { ...data, login_type: type };
-      const res = await axios.post("http://localhost:4000/api/v1/auth/signup", payload);
+      const res = await axios.post('/auth/signup', payload);
 
-      alert("Signup Success! Redirecting to login...");
+      alert('Signup Success! Redirecting to login...');
       console.log(res.data);
-      
-      navigate("/login"); // 3. Redirect to Login Page
 
+      navigate('/login'); // 3. Redirect to Login Page
     } catch (err) {
-      alert(err.response?.data?.error || "Signup Failed");
+      alert(err.response?.data?.error || 'Signup Failed');
     }
   };
 
   return (
     <div className="d-flex justify-content-center mt-5">
-      <Card style={{ width: "30rem" }} className="p-4 shadow">
+      <Card style={{ width: '30rem' }} className="p-4 shadow">
         <h3 className="text-center mb-3">Signup</h3>
 
         {/* Toggle Buttons */}
         <div className="d-flex gap-2 mb-3">
           <Button
-            variant={type === "normal" ? "primary" : "secondary"}
-            onClick={() => handleTypeChange("normal")}
+            variant={type === 'normal' ? 'primary' : 'secondary'}
+            onClick={() => handleTypeChange('normal')}
             className="w-50"
           >
             Normal Signup
           </Button>
           <Button
-            variant={type === "social" ? "primary" : "secondary"}
-            onClick={() => handleTypeChange("social")}
+            variant={type === 'social' ? 'primary' : 'secondary'}
+            onClick={() => handleTypeChange('social')}
             className="w-50"
           >
             Social Signup
@@ -87,7 +89,7 @@ const Signup = () => {
 
         <Form onSubmit={handleSignup}>
           {/* Normal Signup Fields */}
-          {type === "normal" && (
+          {type === 'normal' && (
             <>
               <Form.Group className="mb-3">
                 <Form.Label>Name</Form.Label>
@@ -127,7 +129,7 @@ const Signup = () => {
           )}
 
           {/* Social Signup Fields */}
-          {type === "social" && (
+          {type === 'social' && (
             <>
               <Form.Group className="mb-3">
                 <Form.Label>Name</Form.Label>
