@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Card, Form, Button } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-import api from '../../api/axios';
+import api from '../api/axios';
 
 const Signup = () => {
   const navigate = useNavigate();
