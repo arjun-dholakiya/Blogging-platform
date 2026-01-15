@@ -8,9 +8,26 @@ const authRoutes = require('./modules/v1/auth/routes/authRoutes');
 const postRoutes = require('./modules/v1/post/routes/postRoutes');
 const cors = require('cors');
 
+const allowedOrigins = [
+  'http://localhost:3000',
+  'https://blogging-websitee.netlify.app'
+];
+
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(null, false);
+      }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+  })
+);
 app.use(express.json());
 app.use(morgan('dev'));
-app.use(cors());
 
 app.use('/api/v1/auth', authRoutes);
 app.use('/api/v1/post', postRoutes);
