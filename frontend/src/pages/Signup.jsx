@@ -16,18 +16,21 @@ const Signup = () => {
   });
 
   const handleChange = (e) => {
-    setData({ ...data, [e.target.name]: e.target.value });
+    setData((prev) => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
   };
 
   const handleTypeChange = (newType) => {
     setType(newType);
-    setData({
-      name: data.name,
-      email: newType === 'normal' ? data.email : '',
-      password: newType === 'normal' ? data.password : '',
-      social_provider: newType === 'social' ? data.social_provider : '',
-      social_id: newType === 'social' ? data.social_id : ''
-    });
+    setData((prev) => ({
+      name: prev.name,
+      email: newType === 'normal' ? prev.email : '',
+      password: newType === 'normal' ? prev.password : '',
+      social_provider: newType === 'social' ? prev.social_provider : '',
+      social_id: newType === 'social' ? prev.social_id : ''
+    }));
   };
 
   const handleSignup = async (e) => {
@@ -52,7 +55,8 @@ const Signup = () => {
         login_type: type
       };
 
-      const res = await api.post('/auth/signup', payload);
+      // 🔥 FIX: no unused variable
+      await api.post('/auth/signup', payload);
 
       alert('Signup successful!');
       navigate('/login');
